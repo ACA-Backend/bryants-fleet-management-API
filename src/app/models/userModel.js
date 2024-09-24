@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import argon from 'argon2';
-import { sequelize } from '../config/dbConfig.js';
+import { sequelize } from '../../config/dbConfig.js';
 
 const User = sequelize.define('User', {
   id: {

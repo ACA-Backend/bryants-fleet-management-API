@@ -31,7 +31,7 @@ const initializeDatabaseConnection = (env) => {
   }
 
   // Initialize sequelize based on the available configurations
-  sequelize = databaseUrl
+  const sequelize = databaseUrl
     ? new Sequelize(databaseUrl, { dialect: 'postgres', logging: false })
     : new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
         host: DB_HOST,
