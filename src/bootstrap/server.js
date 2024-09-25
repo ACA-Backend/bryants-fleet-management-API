@@ -7,8 +7,8 @@ import morgan from 'morgan';
 import compression from 'compression';
 import listRoutes from 'express-list-routes';
 import { connectDB } from '../config/dbConfig.js';
-// import other routes
-
+import fleetRoutes from '../routes/fleetRoutes.js';
+import journeyRoutes from '../routes/journeyRoutes.js'
 const app = express();
 
 
@@ -22,8 +22,15 @@ app.use(helmet());
 
 connectDB();
 
-// Routes
+// register Routes
 app.use('/auth', authRoutes);
-// app.use other routes
+app.use('/api/fleet',fleetRoutes);
+app.use('/api/journeys', journeyRoutes);
+
+//starting the server
+const PORT = process.env.PORT || 5432;
+app.listen(PORT, () => {
+    console.log(`server is running on port ${PORT}`);
+});
 
 export default (app ,server);
