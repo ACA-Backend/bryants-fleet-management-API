@@ -34,14 +34,14 @@ const User = sequelize.define('User', {
   },
   profilePicture: {
     type: DataTypes.STRING,
-    allowNull: true, // Optional field for profile pictures
+    allowNull: true, 
   },
   role: {
-    type: DataTypes.ENUM('admin', 'user'),
-    defaultValue: 'user', // Role with default value
+    type: DataTypes.ENUM('admin', 'user', 'driver'),
+    defaultValue: 'user', 
   },
 }, {
-  timestamps: true, // Automatically adds createdAt and updatedAt
+  timestamps: true, 
 });
 
 // Hash the password before creating a new user

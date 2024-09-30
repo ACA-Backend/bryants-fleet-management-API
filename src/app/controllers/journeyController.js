@@ -1,5 +1,6 @@
 import Journey from '../models/journeyModel.js';
 import Vehicle from '../models/vehicleModel.js';
+import generatePassengerManifest from '../../utils/pdfGenerator.js';
 
 //code to Create a new journey
 export const createJourney = async (req, res) => {
@@ -81,5 +82,28 @@ export const deleteJourney = async (req, res) => {
     res.status(200).json({ message: 'Journey deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting journey', error });
+  }
+};
+
+//to generate PDF manifest for a journey
+export const generateManifest = async (req, res) => {
+  const { journeyId } = req.params;
+
+  try {
+    const journey = await journey.findByPk(journeyId);
+    if (!journey) {
+      return res.status(404).json({message: 'journey not found'});
+    }
+
+    const passengers = await Ticket.findAll({
+      where: { journeyId, status: "booked"},
+    })
+
+    const outputpath = './manifest/journey_${journeyId}_manifest.pdf';
+    await generatePassengerManifest( journey, passengers,outputpath );
+
+    res.status(200).json({message: 'PDF manifest generated', path: outputpath});
+  } catch (error) {
+    res.status(500).json({message: 'Error generating manifest', error});
   }
 };

@@ -11,7 +11,6 @@ export const authMiddleware = (requiredRoles = []) => {
     // Extract Authorization header
     const authHeader = req.headers.authorization;
     
-    // Check if the Authorization header is present and starts with "Bearer"
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new UnauthenticatedError('Invalid or missing token');
     }
@@ -23,17 +22,17 @@ export const authMiddleware = (requiredRoles = []) => {
     }
 
     try {
-      // Verify the token using jwtProvider
+      //we use this code to verify the token using jwtProvider
       const decoded = verifyToken(token);
 
-      // Fetch user from the database to ensure they exist and have the correct role
+      //this will fetch user from the database to ensure they exist and have the correct role
       const user = await User.findByPk(decoded.id);
 
       if (!user) {
         throw new UnauthenticatedError('User not found');
       }
 
-      // Check if the user has one of the required roles
+      //to check if the user has one of the required roles
       if (requiredRoles.length && !requiredRoles.includes(user.role)) {
         throw new UnauthorizedError('Forbidden: Insufficient permissions');
       }
@@ -44,9 +43,29 @@ export const authMiddleware = (requiredRoles = []) => {
       if (error instanceof jwt.JsonWebTokenError) {
         throw new UnauthenticatedError('Unauthorized: Invalid token');
       }
-      next(error); // Pass the error to the next middleware (error handler)
+      next(error); 
     }
   };
+};
+
+export const driverMiddleware = ( req, res, next) => {
+  if (req.user.role !== 'driver') {
+    return res.status(403).json({message: 'access denied, driver role required'});
+  } next();
+};
+  export const adminMiddleware =( req, res, next ) => {
+    if ( req.user.role !== 'driver') {
+      return res.status(403).json({message: 'access denied, admin role required'});
+    } next();
+  };
+export const adminMiddlewareOrDriverMiddleware = ( req, res, next) => {
+  isAdmin( req, res, (err) => {
+    if (err) {
+      isDriver( req, res, next);
+    } else {
+      next();
+    }
+  });
 };
 
 export default authMiddleware;
