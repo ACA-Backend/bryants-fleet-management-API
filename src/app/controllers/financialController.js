@@ -95,4 +95,4 @@ export const generateFinancialReport = async (req, res) => {
 };
 
 
-export default { createPayment, recordExpense, generateFinancialReport };
+export default { createPayment, recordExpense, getExpenseCategories, generateFinancialReport };
