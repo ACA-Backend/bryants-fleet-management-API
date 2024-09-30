@@ -9,7 +9,7 @@ import listRoutes from 'express-list-routes';
 import { connectDB } from '../config/dbConfig.js';
 import fleetRoutes from '../routes/fleetRoutes.js';
 import journeyRoutes from '../routes/journeyRoutes.js'
-import ticketRoutes from '../app/models/ticketRoutes.js';
+import ticketRoutes from '../routes/ticketRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 import financialRoutes from '../routes/financialRoutes.js';
 

@@ -30,7 +30,7 @@ const Ticket = sequelize.define('Ticket', {
     allowNull: false,
   },
   status: {
-    type: DataTypes.ENUM('booked', 'cancelled'),
+    type: DataTypes.ENUM('booked', 'cancelled' ),
     allowNull: false,
     defaultValue: 'booked',
   },

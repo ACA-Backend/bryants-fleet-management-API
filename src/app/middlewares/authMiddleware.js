@@ -67,5 +67,11 @@ export const adminMiddlewareOrDriverMiddleware = ( req, res, next) => {
     }
   });
 };
+export const customerMiddleware = (req, res, next) => {
+  if (!req.user || req.user.role !== 'user') {
+    return res.status(403).json({ message: 'access is restricted to custormers only'})
+  }
+  next();
+};
 
 export default authMiddleware;
